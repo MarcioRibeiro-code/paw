@@ -1,0 +1,68 @@
+<app-nav-bar></app-nav-bar>
+
+  <div class="container">
+  <h1 class="mt-4">Event List</h1>
+  <div>
+    <select [(ngModel)]="selectedFilterOption">
+      <option value="title">Title</option>
+      <option value="description">Description</option>
+      <option value="startTime">Start Time</option>
+      <option value="eventType">Event Type</option>
+      <option value="price">Price</option>
+    </select>
+    <input type="text" [(ngModel)]="filterValue" placeholder="Enter filter criteria">
+    <button (click)="applyFilter()">Apply Filter</button>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>Event Type</th>
+        <th>Price</th>
+        <th>Image</th>
+        <th>Info</th>
+      </tr>
+    </thead>
+    <tbody>
+  <tr *ngFor="let event of eventos">
+    <td>{{ event.title }}</td>
+    <td>{{ event.description }}</td>
+    <td>{{ datePipe.transform( event?.startTime , 'dd/MM/yyyy HH:mm') }}</td>
+    <td>{{ datePipe.transform( event.endTime , 'dd/MM/yyyy HH:mm') }}</td>
+    <td>{{ event.eventType }}</td>
+    <td>{{ event.price }}</td>
+    <td>
+      <img [src]="event.image" alt="Event Image" width="100" height="100">
+    </td>
+    <a
+                href="/events/{{event._id}}/"
+                class="btn btn-secondary btn-sm"
+                >More Details</a
+              >
+  </tr>
+</tbody>
+</table>
+  <!-- Pagination -->
+  <nav aria-label="Event pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" [href]="'/events?page=' + (currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+        <a class="page-link" [href]="'/events?page=' + page">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" [href]="'/events?page=' + (currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

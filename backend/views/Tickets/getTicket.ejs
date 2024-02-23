@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/getTicket.css" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <title>Ticket Details</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/employees/">Employees</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/events/">Events</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/ticket/">Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/showall">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/places/all">Places</a>
+          </li>
+          <li class="nav-item logout-btn">
+            <a class="nav-link btn btn-danger" href="/logout/">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="mt-5">
+        <h1>Ticket Details</h1>
+        <ul>
+          <li><strong>ID:</strong> <%= ticket._id ? ticket._id : "N/A" %></li>
+          <li><strong>Price:</strong> <%= ticket.price !== undefined ? ticket.price : "N/A" %></li>
+        </ul>
+        <h2>Event:</h2>
+        <ul>
+          <li><strong>Title:</strong> <%= ticket.events && ticket.events.title ? ticket.events.title : "N/A" %></li>
+          <!-- Add more event details if needed -->
+        </ul>
+        <h2>Local:</h2>
+        <ul>
+          <li><strong>Name:</strong> <%= ticket.locals && ticket.locals.localdata && ticket.locals.localdata.properties.name ? ticket.locals.localdata.properties.name : "N/A" %></li>
+          <!-- Add more local details if needed -->
+        </ul>
+      </div>
+    </div>
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  </body>
+</html>

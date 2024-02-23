@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Excluir Funcionário</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center">Excluir Funcionário</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <% if (deleted) { %>
+            <div class="alert alert-success" id="success-message">
+                Funcionário excluído com sucesso.
+            </div>
+            <% } %>
+            <p class="text-center">Tem certeza de que deseja excluir o funcionário <%= employee.name %>? Esta ação não pode ser desfeita.</p>
+
+            <div class="text-center">
+                <form id="delete-form" action="/employees/<%= employee._id %>/delete" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-danger">Excluir</button>
+                    <a href="/employees/<%= employee._id %>" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Hide success message after 3 seconds
+    $(document).ready(function () {
+        setTimeout(function () {
+            $("#success-message").fadeOut("slow",function(){
+                window.location.href = "/employees/"
+            });
+        }, 3000);
+    });
+
+    // Prevent form submission on page back
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+</body>
+</html>

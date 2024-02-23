@@ -1,0 +1,27 @@
+
+  .card {
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .form-control {
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .form-group label {
+    font-weight: bold;
+  }
+  
+  .form-group input[disabled] {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  

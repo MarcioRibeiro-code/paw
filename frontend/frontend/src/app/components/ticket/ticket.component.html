@@ -1,0 +1,49 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container mt-5">
+    
+    <div class="form-group">
+        <label for="events">Event:</label>
+        <input type="text" id="events" name="events" required [value]="ticket?.events" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="locals">Location:</label>
+        <input type="text" id="locals" name="locals" required [value]="ticket?.locals" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="date">Date:</label>
+        <input type="text" id="date" name="date" required [value]="datePipe.transform( ticket?.date , 'dd/MM/yyyy HH:mm')" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="mb-3">
+        <label for="userBalance" class="form-label">Your Balance:</label>
+        <input type="text" name="userBalance" id="userBalance" [value]="user?.balance" class="form-control" readonly />
+      </div>
+
+    <div class="mb-3">
+        <label for="userPoints" class="form-label">Your Points:</label>
+        <input type="text" name="userPoints" id="userPoints" [value]="user?.points" class="form-control" readonly />
+      </div>
+
+    <div class="mb-3">
+        <label for="ticketPrice" class="form-label">Ticket Price:</label>
+        <input type="text" name="ticketPrice" id="ticketPrice" class="form-control" [value]="currentPrice" readonly />
+      </div>
+      
+      <div class="mb-3" *ngIf="ticket?.promotion">
+        <label for="promotion" class="form-label">Promotion:</label>
+        <select name="promotion" id="promotion" class="form-control" [(ngModel)]="selectedPromotion" (change)="updateTicketPrice()">
+          <option [value]="ticket?.price">Original Price</option>
+          <ng-container *ngFor="let option of ticket?.promotion">
+            <option [value]="option.price">{{ option.pointsNeeded }} points</option>
+          </ng-container>
+        </select>
+      </div>
+      
+      <button type="submit" class="btn btn-primary" (click)="buyTicket()" >Buy</button>
+</div>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All Local Data</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/employees/">Employees</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/events/">Events</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/ticket/">Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/showall">Users</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/places/all">Places</a>
+          </li>
+          <li class="nav-item logout-btn">
+            <a class="nav-link btn btn-danger" href="/logout/">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h1>All Local Data</h1>
+
+      <a href="/places/create" class="btn btn-primary">Add a single place</a>
+      <a href="/places/add" class="btn btn-primary">Add multiple places</a>
+      <a href="/places/info" class="btn btn-primary">Get Json Local Data</a>
+
+      <% if (data && data.length > 0) { %>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Country</th>
+            <th>City</th>
+            <th>Postcode</th>
+            <th>District</th>
+            <th>Neighbourhood</th>
+            <th>Street</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach((item) => { %>
+          <tr>
+            <td><%= item.localdata.properties.name %></td>
+            <td><%= item.localdata.properties.country %></td>
+            <td><%= item.localdata.properties.city %></td>
+            <td><%= item.localdata.properties.postcode %></td>
+            <td><%= item.localdata.properties.district %></td>
+            <td><%= item.localdata.properties.neighbourhood %></td>
+            <td><%= item.localdata.properties.street %></td>
+            <td><%= item.localdata.geometry.coordinates[1] %></td>
+            <td><%= item.localdata.geometry.coordinates[0] %></td>
+            <td>
+              <a href="/places/<%= item._id %>" class="btn btn-primary btn-sm"
+                >More Details</a
+              >
+              <a
+                href="/places/<%= item._id %>/delete"
+                class="btn btn-danger btn-sm"
+                >Delete</a
+              >
+              <a
+                href="/places/<%= item._id %>/price"
+                class="btn btn-secondary btn-sm"
+                >Update Price</a
+              >
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+
+      <% if (totalPages > 1) { %>
+      <nav>
+        <ul class="pagination">
+          <% if (currentPage > 1) { %>
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page=<%= currentPage - 1 %>"
+              aria-label="Previous"
+            >
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <% } %> <% for (let i = 1; i <= totalPages; i++) { %>
+          <li class="page-item <% if (i === currentPage) { %>active<% } %>">
+            <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+          </li>
+          <% } %> <% if (currentPage < totalPages) { %>
+          <li class="page-item">
+            <a
+              class="page-link"
+              href="?page=<%= currentPage + 1 %>"
+              aria-label="Next"
+            >
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+          <% } %>
+        </ul>
+      </nav>
+      <% } %> <% } %>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>

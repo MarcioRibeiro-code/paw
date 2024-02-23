@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Selling Error</title>
+</head>
+<body>
+  <h1>Ticket Selling Error</h1>
+  <% if (typeof errorMessages !== 'undefined' && errorMessages.length > 0) { %>
+    <% errorMessages.forEach(function(message) { %>
+      <p>Error Message: <%= message %></p>
+    <% }); %>
+  <% } %>
+  <a href="/ticket/">Go Back</a>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<app-nav-bar></app-nav-bar>
+  
+  <div class="container">
+    <h1>User Details</h1>
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td><strong>Username:</strong></td>
+          <td>{{ user?.username }} </td>
+          <td><strong>Email:</strong></td>
+          <td>{{ user?.email }}</td>
+        </tr>
+        <tr>
+          <td><strong>Name:</strong></td>
+          <td>{{ user?.firstName }} {{ user?.lastName }}</td>
+          <td><strong>Date of Birth:</strong></td>
+          <td>{{ datePipe.transform( user?.dateOfBirth , 'dd/MM/yyyy HH:mm')  }}</td>
+        </tr>
+        <tr>
+          <td><strong>Created at:</strong></td>
+          <td colspan="3">{{datePipe.transform( user?.createdAt , 'dd/MM/yyyy HH:mm') }}</td>
+        </tr>
+        <tr>
+          <td><strong>Balance:</strong></td>
+          <td>{{ user?.balance }}</td>
+          <td><strong>Points:</strong></td>
+          <td>{{ user?.points }}</td>
+        </tr>
+        <tr>
+          <td colspan="4"><strong>Tickets:</strong></td>
+        </tr>
+        <ng-container *ngIf="tickets.length > 0; else noTickets">
+          <tr *ngFor="let ticket of tickets">
+            <td><strong>Events Title:</strong></td>
+            <td>{{ ticket.events }}</td>
+            <td><strong>Local Name:</strong></td>
+            <td>{{ ticket.locals }}</td>
+            <td><strong>Ticket Price:</strong></td>
+            <td>{{ ticket.price }}</td>
+          </tr>
+        </ng-container>
+        <ng-template #noTickets>
+          <tr>
+            <td colspan="4">No tickets found.</td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+  

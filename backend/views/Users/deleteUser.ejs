@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Excluir User</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/deleteUser.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Excluir Utilizador</h1>
+
+    <form action="/users/<%= user._id %>/delete" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <p>Tem certeza de que deseja excluir o utilizador <%= user.name %>? Esta ação não pode ser desfeita.</p>
+
+        <button type="submit" class="btn btn-danger">Excluir</button>
+        <a href="/users/showall" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+<script>
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2){
+            return parts.pop().split(';').shift();
+        }
+        return null;
+    }
+
+    const token = getCookie('token');
+    console.log(token);
+
+</script>
+</body>
+</html>

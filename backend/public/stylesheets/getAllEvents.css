@@ -1,0 +1,76 @@
+.event-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.event {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+}
+
+.event h2 {
+    font-size: 24px;
+    margin: 0;
+}
+
+.event p {
+    margin: 5px 0;
+}
+
+.event .event-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.event .event-info span {
+    font-weight: bold;
+}
+
+.event .event-info .event-price {
+    color: green;
+}
+
+.event .event-info .event-location {
+    color: blue;
+}
+
+.event .event-info .event-type {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.event .event-info .event-type-free {
+    background-color: green;
+}
+
+.event .event-info .event-type-paid {
+    background-color: orange;
+}
+
+@media screen and (min-width: 768px) {
+    .event {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .event .event-info {
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 20px;
+        align-items: flex-end;
+    }
+
+    .event .event-image {
+        margin-right: 20px;
+    }
+}

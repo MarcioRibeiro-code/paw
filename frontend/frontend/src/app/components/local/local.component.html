@@ -1,0 +1,64 @@
+<app-nav-bar></app-nav-bar>
+
+  <div class="container">
+  <h1 class="mt-4">Local List</h1>
+  <div>
+    <select [(ngModel)]="selectedFilterOption">
+      <option value="Name">Name</option>
+      <option value="country">Country</option>
+      <option value="city">City</option>
+      <option value="neighbourhood">Neighbourhood</option>
+      <option value="street">Street</option>
+    </select>
+    <input type="text" [(ngModel)]="filterValue" placeholder="Enter filter criteria">
+    <button (click)="applyFilter()">Apply Filter</button>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Country</th>
+        <th>City</th>
+        <th>Postcode</th>
+        <th>Neighbourhood</th>
+        <th>Street</th>
+        <th>Info</th>
+      </tr>
+    </thead>
+    <tbody>
+  <tr *ngFor="let local of locais">
+    <td>{{ local.name }}</td>
+    <td>{{ local.country }}</td>
+    <td>{{ local.city }}</td>
+    <td>{{ local.postcode }}</td>
+    <td>{{ local.neighbourhood }}</td>
+    <td>{{ local.street }}</td>
+    <a
+                href="/locals/{{local.id}}/"
+                class="btn btn-secondary btn-sm"
+                >More Details</a
+              >
+  </tr>
+</tbody>
+</table>
+  <!-- Pagination -->
+  <nav aria-label="Local pagination">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" [href]="'/locals?page=' + (currentPage - 1)" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
+        <a class="page-link" [href]="'/locals?page=' + page">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" [href]="'/locals?page=' + (currentPage + 1)" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

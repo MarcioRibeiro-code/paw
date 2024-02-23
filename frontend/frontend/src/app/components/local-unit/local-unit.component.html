@@ -1,0 +1,105 @@
+<app-nav-bar></app-nav-bar>
+
+<div class="container mt-5">
+    
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required [value]="local?.name" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" required [value]="local?.country" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="country_code">Country Code:</label>
+        <input type="text" id="country_code" name="country_code" required [value]="local?.country_code" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="county">County:</label>
+        <input type="text" id="county" name="county" required [value]="local?.county" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" id="city" name="city" required [value]="local?.city" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="postcode">Postcode:</label>
+        <input type="text" id="postcode" name="postcode" required [value]="local?.postcode" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required [value]="local?.district" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="neighbourhood">Neighbourhood:</label>
+        <input type="text" id="neighbourhood" name="neighbourhood" required [value]="local?.neighbourhood" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="suburb">Suburb:</label>
+        <input type="text" id="suburb" name="suburb" required [value]="local?.suburb" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required [value]="local?.street" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="lon">Longitude:</label>
+        <input type="number" id="lon" name="lon" required [value]="local?.lon" readonly class="form-control">
+    </div>
+    <br/>
+
+    <div class="form-group">
+        <label for="lat">Latitude:</label>
+        <input type="number" id="lat" name="lat" required [value]="local?.lat" readonly class="form-control">
+    </div>
+    <br/>
+    
+    <div class="form-group">
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" required [value]="local?.price" readonly class="form-control">
+    </div>
+    <br/>
+    <div class="container">
+      <h1 class="mt-4">Ticket List</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>
+      <tr *ngFor="let ticket of tickets">
+        <td>{{ datePipe.transform( ticket.date , 'dd/MM/yyyy HH:mm') }}</td>
+        <td>{{ ticket.price }}</td>
+        <a
+                    href="/ticket/{{ ticket._id }}/"
+                    class="btn btn-secondary btn-sm"
+                    >More Details</a
+                  >
+      </tr>
+    </tbody>
+    </table>
+    </div>
+</div>
+

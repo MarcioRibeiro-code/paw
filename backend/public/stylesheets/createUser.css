@@ -1,0 +1,80 @@
+body {
+    background-color: #4c2b4f;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: #5b3867;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    max-width: 300px;
+    width: 100%;
+}
+
+h1 {
+    display: block;
+    text-align: left;
+    color: white;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 8px;
+    text-align: left;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="date"],
+input[type="number"] {
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+    margin-bottom: 10px;
+    width: 100%;
+    font-size: 14px;
+}
+
+input[type="submit"] {
+    background-color: #9c6f9d;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    font-size: 14px;
+}
+
+input[type="submit"]:hover {
+    background-color: #7e517f;
+}
+
+.error {
+    color: #f00;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+/* Media queries */
+@media screen and (max-width: 500px) {
+    .container {
+        max-width: 100%;
+    }
+}

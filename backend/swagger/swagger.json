@@ -1,0 +1,1620 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Express",
+    "description": "Documentation for the backoffice project"
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Auth",
+      "description": "Authentication API"
+    },
+    {
+      "name": "Employees",
+      "description": "API for Employee related CRUDs"
+    },
+    {
+      "name": "Events",
+      "description": "API for Event related CRUDs"
+    },
+    {
+      "name": "Locals",
+      "description": "API for Local related CRUDs"
+    },
+    {
+      "name": "Tickets",
+      "description": "API for Ticket related CRUDs"
+    },
+    {
+      "name": "Users",
+      "description": "API for User related CRUDs"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Allows employees to sign up.",
+        "responses": {
+          "302": {
+            "description": "Successful login. Redirect to /employees"
+          },
+          "401": {
+            "description": "Invalid credentials. Redirect to /login"
+          },
+          "500": {
+            "description": "Internal Server Error. Rendering error page"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "in": "body",
+          "name": "User",
+          "schema": {
+            "$ref": "#/definitions/User"
+          }
+        }
+      ]
+    },
+    "/logout": {
+      "get": {
+        "security": [
+          {
+            "in": "cookie",
+            "name": "access_token"
+          }
+        ],
+        "tags": [
+          "Auth"
+        ],
+        "summary": "Logout user",
+        "responses": {
+          "302": {
+            "description": "Successful logout. Redirect to login page"
+          },
+          "500": {
+            "description": "Internal Server Error. Rendering error page"
+          }
+        }
+      }
+    },
+    "/employees": {
+      "get": {
+        "security": [
+          {
+            "in": "cookie",
+            "name": "access_token"
+          }
+        ],
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Return a list of all employees",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Employee"
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/employees/register": {
+      "post": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Create a new employee",
+        "responses": {
+          "302": {
+            "description": "Successful registration. Redirect to /employees/register?success=true"
+          },
+          "400": {
+            "description": "Bad Request. Invalid input data. Redirect to /employees/register"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Render the register form",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/employees/:employeeId": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Gets a employee, given its id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employeeId",
+            "type": "string",
+            "required": true,
+            "description": "The id of the employee"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          },
+          "400": {
+            "description": "Employee not found. Redirect to /employees"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/employees/:employeeId/edit": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Render the update form for an employee",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employeeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          },
+          "302": {
+            "description": "Redirect to /employees if employee is not found or deleted"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Update employee details",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employeeId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "updatedEmployee",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          },
+          "302": {
+            "description": "Redirect to /employees if employee is not found or deleted"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/employees/:employeeId/delete": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Render the delete form for an employee",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employeeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          },
+          "302": {
+            "description": "Redirect to /employees if employee is not found or deleted"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Employees"
+        ],
+        "summary": "Soft delete an employee",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "employeeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          },
+          "302": {
+            "description": "Redirect to /employees if employee is not found or already deleted"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Get all events",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/create": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Render the event creation form",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Create a new event",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Events"
+            },
+            "name": "Event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event created successfully. Redirect to /events"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/:id": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Get an event by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/:id/edit": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Render update form for an event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the event"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "403": {
+            "description": "Event is marked as deleted"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Update an event by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the event"
+          },
+          {
+            "in": "body",
+            "name": "event",
+            "description": "Updated event object",
+            "schema": {
+              "$ref": "#/components/schemas/EventInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/events/:id/delete": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Render the delete event form",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the event to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "403": {
+            "description": "Event marked as deleted"
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Delete an event",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the event to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event successfully deleted"
+          },
+          "404": {
+            "description": "Event not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/add": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Render the add places view",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Add local places",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Local"
+            },
+            "name": "Local"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Places added successfully"
+          },
+          "400": {
+            "description": "Invalid JSON format"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/create": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Render the create local place view",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Create a new local place",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Local"
+            },
+            "name": "Local"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Local place created successfully"
+          },
+          "400": {
+            "description": "Local place already exists"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/:id/update": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Render the update local place view by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the local place to be updated"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Local place not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Update a local place by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the local place to be updated"
+          },
+          {
+            "in": "body",
+            "name": "Local",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Local"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Local place updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Local place not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/info": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Render the local data view",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/info/data": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Get local data",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "local",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Local query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/all": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Get all local data",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": "Page number (optional)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/:id": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Get local data by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the local place"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Local not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/:id/price": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Render update location price view",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the local place"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Local not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/places/:id/price": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "put": {
+        "tags": [
+          "Locals"
+        ],
+        "summary": "Update location price by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the local place"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "number"
+                }
+              }
+            },
+            "description": "Updated price of the local place"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Price updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Local not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ticket": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Get all tickets",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/ticket/create": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Render create ticket form",
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Create a new ticket",
+        "parameters": [
+          {
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/Ticket"
+            },
+            "name": "Ticket"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ticket created successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Cannot create Ticket"
+          }
+        }
+      }
+    },
+    "/ticket/filteredEvents/:date/:localId": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Retorna os eventos filtrados por data e local",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "required": true,
+            "description": "Data para filtrar os eventos (formato: AAAA-MM-DD)"
+          },
+          {
+            "in": "path",
+            "name": "localId",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "ID do local para filtrar os eventos"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de eventos filtrados"
+          }
+        },
+        "404": {
+          "description": "Local não encontrado ou nenhum evento encontrado"
+        }
+      }
+    },
+    "/ticket/:id": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Get ticket by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the ticket"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Ticket not found"
+          }
+        }
+      }
+    },
+    "/ticket/:id/sell": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Sell ticket view",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the ticket"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "No users found"
+          },
+          "404": {
+            "description": "No ticket found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "summary": "Sell ticket",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the ticket"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "403": {
+            "description": "Ticket not found or user deleted"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Render user form",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users/showall": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/:id": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "summary": "Get user by ID",
+        "tags": [
+          "Users"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/:id/edit": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Render update user form",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Update user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/:id/delete": {
+      "security": [
+        {
+          "in": "cookie",
+          "name": "access_token"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Render delete user form",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Delete user by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+},
+"definitions": {
+"Employee": {
+"required": [
+"name",
+"role",
+"email",
+"password"
+],
+"properties": {
+"name": {
+"type": "string",
+"description": "Employee's name"
+},
+"role": {
+"type": "string",
+"description": "Employee's role. Must be either 'admin' or 'employee'",
+"enum": [
+"admin",
+"employee"
+]
+},
+"email": {
+"type": "string",
+"description": "Employee's email"
+},
+"password": {
+"type": "string",
+"description": "Employee's password. Must contain at least 8 characters, one uppercase letter, one lowercase letter, and one number"
+},
+"deleted": {
+"type": "boolean",
+"description": "Indicates if the employee is active or deleted. 'true' means deleted, 'false' means active."
+}
+}
+},
+"Event": {
+"required": [
+"title",
+"description",
+"location",
+"startTime",
+"endTime",
+"eventType",
+"image"
+],
+"properties": {
+"title": {
+"type": "string",
+"description": "The title of the event"
+},
+"description": {
+"type": "string",
+"description": "The description of the event"
+},
+"location": {
+"type": "string",
+"description": "The location of the event"
+},
+"startTime": {
+"type": "string",
+"format": "date-time",
+"description": "The start time of the event"
+},
+"endTime": {
+"type": "string",
+"format": "date-time",
+"description": "The end time of the event"
+},
+"eventType": {
+"type": "string",
+"enum": [
+"free",
+"paid"
+],
+"default": "free",
+"description": "The type of the event. Can be 'free' or 'paid'"
+},
+"price": {
+"type": "number",
+"default": 0,
+"minimum": 0,
+"description": "The price of the event. Only applicable for 'paid' events"
+},
+"image": {
+"type": "string",
+"description": "The image URL of the event"
+},
+"deleted": {
+"type": "boolean",
+"default": false,
+"description": "Indicates if the event is active or deleted. 'true' means deleted, 'false' means active"
+}
+}
+},
+"Local": {
+"required": [
+"localdata"
+],
+"properties": {
+"localdata": {
+"type": "object",
+"description": "The data of the local"
+},
+"eventsOcurring": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/Event"
+},
+"description": "The events occurring at the local"
+},
+"price": {
+"type": "number",
+"description": "The price of the local"
+},
+"deleted": {
+"type": "boolean",
+"default": false,
+"description": "Indicates if the local is active or deleted. 'true' means deleted, 'false' means active"
+}
+}
+},
+"Ticket": {
+"required": [
+"employeeID",
+"date",
+"free",
+"users"
+],
+"properties": {
+"events": {
+"type": "string",
+"description": "The ID of the event associated with the ticket",
+"$ref": "#/definitions/Event"
+},
+"locals": {
+"type": "string",
+"description": "The ID of the local associated with the ticket",
+"$ref": "#/definitions/Local"
+},
+"employeeID": {
+"type": "string",
+"description": "The ID of the employee associated with the ticket",
+"format": "uuid",
+"$ref": "#/definitions/Employee"
+},
+"price": {
+"type": "number",
+"description": "The price of the ticket"
+},
+"date": {
+"type": "string",
+"format": "date",
+"description": "The date of the ticket"
+},
+"free": {
+"type": "boolean",
+"description": "Indicates if the ticket is free or not"
+},
+"users": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/User"
+},
+"description": "The IDs of the users associated with the ticket"
+}
+}
+},
+"User": {
+"required": [
+"username",
+"password",
+"email",
+"firstName",
+"lastName",
+"dateOfBirth"
+],
+"properties": {
+"username": {
+"type": "string",
+"description": "Username of the user"
+},
+"password": {
+"type": "string",
+"description": "Password of the user (must contain at least 8 characters, including uppercase, lowercase, and a number)"
+},
+"email": {
+"type": "string",
+"description": "Email address of the user"
+},
+"firstName": {
+"type": "string",
+"description": "First name of the user"
+},
+"lastName": {
+"type": "string",
+"description": "Last name of the user"
+},
+"dateOfBirth": {
+"type": "string",
+"description": "Date of birth of the user"
+},
+"createdAt": {
+"type": "string",
+"description": "Date and time when the user was created"
+},
+"tickets": {
+"type": "array",
+"items": {
+"$ref": "#/definitions/Ticket"
+},
+"description": "List of tickets associated with the user"
+},
+"balance": {
+"type": "number",
+"description": "Balance amount of the user"
+},
+"points": {
+"type": "number",
+"description": "Points earned by the user"
+},
+"deleted": {
+"type": "boolean",
+"description": "Indicates if the user is deleted or not"
+}
+}
+}
+}
+}

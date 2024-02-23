@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Create Ticket</title>
+
+    <!-- Bootstrap library (optional) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/employees/">Employees</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/events/">Events</a>
+          </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="/ticket/">Tickets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/showall">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/places/all">Places</a>
+          </li>
+          <li class="nav-item logout-btn">
+            <a class="nav-link btn btn-danger" href="/logout/">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h1>Create Ticket</h1>
+      <form action="/ticket/create" method="POST">
+        <div class="form-group">
+          <label for="date">Date:</label>
+          <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date"
+            required
+          />
+        </div>
+        <br />
+        <div class="form-group">
+          <label for="locals">Locais:</label>
+          <select name="locals" id="locals" class="form-control">
+            <option disabled selected>Selecione um Local</option>
+            <% locals.forEach(function(local) { %>
+              <option value="<%= local._id %>">
+                <%= local.localdata.properties.name %> - <%= local.localdata.properties.district %>
+              </option>
+            <% }); %>
+          </select>
+        </div>
+
+        <br />
+
+        <div class="form-group">
+          <label for="events">Events:</label>
+          <select
+            name="events"
+            id="events"
+            multiple
+            class="form-control"
+          ></select>
+        </div>
+        <br />
+
+        <div class="form-group">
+          <label for="free">Free:</label>
+          <select name="free" id="free" class="form-control">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+        <br />
+
+        <input type="submit" value="Create" class="btn btn-primary" />
+      </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script src="/scripts/CreateTicket.js"></script>
+  </body>
+</html>

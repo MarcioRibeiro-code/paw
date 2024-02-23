@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Sell Ticket</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/employees/">Employees</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/events/">Events</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="/ticket/">Tickets</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/showall">Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/places/all">Places</a>
+      </li>
+      <li class="nav-item logout-btn">
+        <a class="nav-link btn btn-danger" href="/logout/">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Display flash messages -->
+<% if (typeof messages !== 'undefined' && messages.length > 0) { %>
+  <% messages.forEach(function(message) { %>
+    <div class="alert alert-<%= message.type %>"><%= message.text %></div>
+  <% }); %>
+<% } %>
+
+<div class="container">
+  <h1 class="mt-5">Sell Ticket</h1>
+  <form action="/ticket/<%= ticket._id %>/sell" method="POST" onsubmit="return validateForm()">
+    <!-- Add input fields for ticketId and userId -->
+    <div class="mb-3">
+      <label for="ticketId" class="form-label">Ticket ID:</label>
+      <input type="text" name="ticketId" id="ticketId" class="form-control" value="<%= ticket._id %>" readonly />
+    </div>
+
+    <!-- Display ticket price and promotion options -->
+    <div class="mb-3">
+      <label for="ticketPrice" class="form-label">Ticket Price:</label>
+      <input type="text" name="ticketPrice" id="ticketPrice" class="form-control" value="<%= ticket.price %>" readonly />
+    </div>
+
+    <% if (ticket.promotion && ticket.promotion.length > 0) { %>
+      <div class="mb-3">
+        <label for="promotion" class="form-label">Promotion:</label>
+        <select name="promotion" id="promotion" class="form-control" onchange="updateTicketPrice()">
+          <% if (ticket.price > 0) { %>
+            <option value="<%= ticket.price %>">
+              Original Price
+            </option>
+          <% } %>
+          <% ticket.promotion.forEach(function(option) { %>
+            <option value="<%= option.price %>">
+               <%= option.pointsNeeded %> points
+            </option>
+          <% }); %>
+        </select>
+      </div>
+    <% } %>
+
+    <div class="mb-3">
+      <label for="userId" class="form-label">User:</label>
+      <select name="userId" id="userId" class="form-control" required onchange="updateUserPoints()">
+        <% users.forEach(function(user) { %>
+          <option value="<%= user._id %>" data-points="<%= user.points %>">
+            <%= user.username %> (Email: <%= user.email %>)
+          </option>
+        <% }); %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="userPoints" class="form-label">User Points:</label>
+      <input type="text" name="userPoints" id="userPoints" class="form-control" readonly />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sell</button>
+  </form>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/scripts/sellTicket.js"></script>
+</body>
+</html>

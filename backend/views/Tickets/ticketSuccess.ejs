@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ticket Sold</title>
+</head>
+<body>
+  <h1>Ticket Sold Successfully</h1>
+  <% if (typeof successMessages !== 'undefined' && successMessages.length > 0) { %>
+    <% successMessages.forEach(function(message) { %>
+      <p><%= message %></p>
+    <% }); %>
+  <% } %>
+  <a href="/ticket/">Go back</a>
+</body>
+</html>

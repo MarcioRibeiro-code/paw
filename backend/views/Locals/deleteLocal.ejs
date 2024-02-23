@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Excluir Local</title>
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+            integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous"
+    />
+    <style>
+        .container {
+            max-width: 600px;
+        }
+
+        h1 {
+            margin-top: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        p {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Excluir Local</h1>
+
+    <form action="/places/<%= Local._id %>/delete" method="post">
+        <input type="hidden" name="_method" value="DELETE">
+        <p>Tem certeza de que deseja excluir o local <%= Local.localdata.properties.name %>?</p>
+        <p>Esta ação não pode ser desfeita.</p>
+
+        <div class="d-flex">
+            <button type="submit" class="btn btn-danger">Excluir</button>
+            <a href="/places/<%= Local._id %>" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
